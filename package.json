@@ -1,6 +1,7 @@
 {
   "name": "sdk",
   "version": "0.0.1",
+  "logo":"https://cdn1.iconfinder.com/data/icons/Real-Estate-png/65/Factory.png",
   "description": "a sdk factory, build sdks made easy.",
   "main": "index.js",
   "author": "turing <o.u.turing@gmail.com>",
