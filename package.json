@@ -1,8 +1,10 @@
 {
   "name": "sdk",
-  "version": "0.0.0",
-  "description": "a sdk factory, build sdks from a smart sdk-config.json ",
+  "version": "0.0.1",
+  "description": "a sdk factory, build sdks made easy.",
   "main": "index.js",
+  "author": "turing <o.u.turing@gmail.com>",
+  "license": "MIT",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,9 +17,12 @@
     "sdk-factory",
     "api"
   ],
-  "author": "turing",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/turingou/sdk/issues"
+  },
+  "dependencies": {
+    "beer": "*",
+    "underscore": "*",
+    "swig": "*"
   }
 }

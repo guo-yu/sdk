@@ -1,17 +1,38 @@
 ## sdk ![npm](https://badge.fury.io/js/sdk.png)
 
-a sdk factory, build sdks from a smart sdk-config.json  by [turing](https://npmjs.org/~turing) 
+a sdk factory, build sdks made easy. by [turing](https://npmjs.org/~turing) 
 
 ### Installation
 ````
 $ npm install sdk
-// or install globally
-$ sudo npm install sdk -g
 ````
 
 ### Example
 ````javascript
 var sdk = require('sdk');
+
+// init a API
+var demo = new sdk({
+    read: {
+        url: '/demo/read/{{name}}',
+        method: 'get'
+    },
+    update: {
+        url: '/demo/update',
+        method: 'post'
+    }
+},{
+    server: 'http://abc.com'
+});
+
+// run demo
+// will send a GET request -> http://abc.com/demo/read/123
+demo.read({
+    name: 123
+},function(err, result){
+    console.log(err);
+    console.log(result.response);
+});
 ````
 
 ### API
