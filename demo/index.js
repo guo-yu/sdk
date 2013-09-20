@@ -3,8 +3,7 @@ var API = require('../index');
 // init a API
 var demo = new API({
     read: {
-        url: '/demo/read/{{name}}',
-        method: 'get'
+        url: '/demo/read/{{name}}'
     },
     update: {
         url: '/demo/update',
