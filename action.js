@@ -7,11 +7,8 @@ module.exports = function(route, self) {
         var parent = self.parent,
             method = route.method ? route.method : 'get',
             callback = (_.isFunction(params) && !cb) ? params : cb,
-            raw = (params && _.isObject(params)) ? params: {},
-            vars = raw;
-        if (method === 'get') vars = params.query ? params.query : {};
-        if (route.headers && _.isObject(route.headers)) vars.headers = route.headers;
-        api[method](parent.server + urlmaker(raw, route), vars, function(err, result) {
+            data = (params && _.isObject(params)) ? params: {};
+        api[method](parent.server + urlmaker(data, route), data, function(err, result) {
             callback(err, result, parent);
         });
     }
