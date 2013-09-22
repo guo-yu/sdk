@@ -15,7 +15,7 @@ var sdk = require('sdk');
 var demo = new sdk({
     read: {
         url: '/demo/read/{{name}}',
-        method: 'get'
+        method: 'get' // default method is 'get'
     },
     update: {
         url: '/demo/update',

@@ -12,11 +12,12 @@ var api = require('./action'),
 
 var API = function(router, parent) {
     var self = this;
-    if (parent) this.parent = parent;
-    if (router) this.router = router;
+    if (parent) self.parent = parent;
+    if (router) self.router = router;
     if (self.router && _.isObject(self.router)) {
         _.each(self.router, function(route, key) {
-            API.prototype[key] = api(route, self);
+            // 采用 API.prototype[key] 的方式会互相覆盖
+            self[key] = api(route, self);
         });
     }
 }
