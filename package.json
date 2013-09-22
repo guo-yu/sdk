@@ -1,6 +1,6 @@
 {
   "name": "sdk",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "logo":"https://cdn1.iconfinder.com/data/icons/Real-Estate-png/65/Factory.png",
   "description": "a sdk factory, build sdks made easy.",
   "main": "index.js",
