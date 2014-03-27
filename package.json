@@ -1,6 +1,6 @@
 {
   "name": "sdk",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "logo":"https://cdn1.iconfinder.com/data/icons/Real-Estate-png/65/Factory.png",
   "description": "a sdk factory, build sdks made easy.",
   "main": "index.js",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "beer": "*",
-    "underscore": "*",
-    "swig": "*"
+    "swig": "*",
+    "underscore": "*"
   }
 }
