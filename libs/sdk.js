@@ -7,19 +7,24 @@
 // @brief: a sdk factory, build sdks made easy
 // @author: [turingou](http://guoyu.me)
 
-var _ = require('underscore');
-var api = require('./action');
+var utils = require('./utils');
+var apis = require('./action');
 
-module.exports = API;
+module.exports = SDK;
 
-function API(router, parent) {
+function SDK(host, routes) {
+  if (!routes || !host) return false;
+  if (!(utils.isObject(routes))) return false;
   var self = this;
-  if (parent) self.parent = parent;
-  if (router) self.router = router;
-  if (self.router && _.isObject(self.router)) {
-    _.each(self.router, function(route, key) {
-      // 采用 API.prototype[key] 的方式会互相覆盖
-      self[key] = api(route, self);
-    });
-  }
+  Object.keys(routes).forEach(function(key) {
+    var route = routes[key];
+    var api = {}
+    if (typeof(route) === 'string') {
+      api.url = route;
+    } else {
+      if (!route.url) return false;
+      api = route;
+    }
+    self[key] = apis(host, api);
+  });
 }

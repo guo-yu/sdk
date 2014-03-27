@@ -1,7 +1,7 @@
 var swig = require('swig');
 
-module.exports = function(locals, route) {
-  return swig.render(route.url, {
+module.exports = function(route, locals) {
+  return swig.render(route, {
     locals: locals
   });
 };

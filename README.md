@@ -12,26 +12,30 @@ $ npm install sdk
 var sdk = require('sdk');
 
 // init a API
-var demo = new sdk({
-    read: {
-        url: '/demo/read/{{name}}',
-        method: 'get' // default method is 'get'
-    },
-    update: {
-        url: '/demo/update',
-        method: 'post'
-    }
-},{
-    server: 'http://abc.com'
+var MySdk = new sdk('http://myApiServer.com', {
+  // default method is 'get'
+  query: '/demo/query',
+  // or define selected method
+  read: {
+    url: '/demo/read/{{name}}',
+    method: 'get'
+  },
+  update: {
+    url: '/demo/update',
+    method: 'post'
+  }
 });
 
-// run demo
-// will send a GET request -> http://abc.com/demo/read/123
-demo.read({
-    name: 123
-},function(err, result){
-    console.log(err);
-    console.log(result.response);
+// will send a GET request -> 
+// http://myApiServer.com/demo/read/alice?before=1567
+MySdk.read({
+  name: 'alice',
+  qs: {
+    before: 1567
+  }
+},function(err, res, body) {
+  if (err) throw err;
+  console.log(body);
 });
 ````
 

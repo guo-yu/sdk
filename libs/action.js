@@ -1,15 +1,24 @@
-var api = require('beer');
-var _ = require('underscore');
+var url = require('url');
+var request = require('request');
+var utils = require('./utils');
 var urlmaker = require('./url');
 
-module.exports = function(route, self) {
-  return function(params, cb) {
-    var parent = self.parent;
-    var method = route.method ? route.method : 'get';
-    var callback = (_.isFunction(params) && !cb) ? params : cb;
-    var data = (params && _.isObject(params)) ? params : {};
-    api[method](parent.server + urlmaker(data, route), data, function(err, result) {
-      callback(err, result, parent);
-    });
+module.exports = function(host, route) {
+
+  return function(params, callback) {
+    var method = route.method || 'get';
+    var cb = (utils.isFunction(params) && !callback) ? params : callback;
+    var options = (params && utils.isObject(params)) ? params : {};
+
+    options.url = url.resolve(host,
+      method === 'get' ?
+      urlmaker(routes.url, options) :
+      routes.url
+    );
+
+    options.method = method;
+
+    return request(options, cb);
   };
+
 };

@@ -22,8 +22,7 @@
     "url": "https://github.com/turingou/sdk/issues"
   },
   "dependencies": {
-    "beer": "*",
     "swig": "*",
-    "underscore": "*"
+    "request": "*"
   }
 }
