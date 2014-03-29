@@ -12,8 +12,8 @@ module.exports = function(host, route) {
 
     options.url = url.resolve(host,
       method === 'get' ?
-      urlmaker(routes.url, options) :
-      routes.url
+      urlmaker(route.url, options) :
+      route.url
     );
 
     options.method = method;

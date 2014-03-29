@@ -1,22 +1,19 @@
-var API = require('../index');
+var SDK = require('../index');
 
-// init a API
-var demo = new API({
-    read: {
-        url: '/demo/read/{{name}}'
-    },
-    update: {
-        url: '/demo/update',
-        method: 'post'
-    }
-},{
-    server: 'http://abc.com'
+var sdk = new SDK('http://abc.com', {
+  read: {
+    url: '/demo/read/{{name}}'
+  },
+  update: {
+    method: 'post',
+    url: '/demo/update'
+  }
 });
 
 // run demo
-demo.read({
-    name: 123
-},function(err, result){
-    // console.log(err);
-    // console.log(result.response);
+sdk.read({
+  name: 123
+}, function(err, res, body) {
+  console.log(err);
+  console.log(res.statusCode)
 });
