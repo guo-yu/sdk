@@ -7,15 +7,32 @@
 // @brief: a sdk factory, build sdks made easy
 // @author: [turingou](http://guoyu.me)
 
-var utils = require('./utils');
+var _ = require('underscore');
 var apis = require('./action');
 
 module.exports = SDK;
 
-function SDK(host, routes) {
+function SDK(host, routes, rules) {
   if (!routes || !host) return false;
-  if (!(utils.isObject(routes))) return false;
+  if (!(_.isObject(routes))) return false;
+  this.host = host;
+  this.routes = routes;
+  this.rules = rules || null;
+  if (this.rules) this.init();
+}
+
+SDK.prototype.rule = function(key, value) {
+  if (!key || !value) return false;
+  if (!this.rules) this.rules = {}
+  this.rules[key.toLowerCase()] = value;
+  return this.rules;
+};
+
+SDK.prototype.init = function() {
   var self = this;
+  var routes = this.routes;
+  var host = this.host;
+  var rules = this.rules;
   Object.keys(routes).forEach(function(key) {
     var route = routes[key];
     var api = {}
@@ -25,6 +42,6 @@ function SDK(host, routes) {
       if (!route.url) return false;
       api = route;
     }
-    self[key] = apis(host, api);
+    self[key] = apis(host, api, rules);
   });
 }

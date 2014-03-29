@@ -1,22 +1,22 @@
 var url = require('url');
+var _ = require('underscore');
 var request = require('request');
-var utils = require('./utils');
 var urlmaker = require('./url');
 
-module.exports = function(host, route) {
+module.exports = function(host, route, rules) {
 
   return function(params, callback) {
-    var method = route.method || 'get';
-    var cb = (utils.isFunction(params) && !callback) ? params : callback;
-    var options = (params && utils.isObject(params)) ? params : {};
+    var method = route.method.toLowerCase() || 'get';
+    var cb = (_.isFunction(params) && !callback) ? params : callback;
+    var options = (params && _.isObject(params)) ? params : {};
 
-    options.url = url.resolve(host,
-      method === 'get' ?
-      urlmaker(route.url, options) :
-      route.url
-    );
+    if (rules) {
+      if (rules.all) options = _.extend(rules.all, options);
+      options = _.extend(rules[method] || {}, options);
+    }
 
     options.method = method;
+    options.url = url.resolve(host, urlmaker(route.url, options));
 
     return request(options, cb);
   };
