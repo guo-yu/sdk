@@ -2,6 +2,8 @@
 
 a sdk factory, build sdks made easy.
 
+SDK provides a easy and fast way to build a collection of APIs. user would config api routes, define which params will be injected into query params, and custom a callback wrapper of each route. make it sample and easy to handle API as make codes more reuseful.
+
 ### Installation
 ````
 $ npm install sdk
@@ -40,7 +42,25 @@ MySdk.read({
 ````
 
 ### API
-check this file: `index.js`
+
+#### new SDK(host, routes, rules)
+
+- @host[String]: the host domain
+- @routes[Object]: a object contains every route of the sdk, including its URL, method, and callback function
+- @rules[Object]: a object contains rules which append or merged into query params.
+
+#### SDK#rule(key, value)
+Add a new rule to SDK instance
+
+- @key[String]: the key word of this rule, may be `get`,`post` or `all`
+- @value[Object]: the value of this rule, this very object will be merged in to query params,
+- for instance, `qs` object will be merged into query string. and `form` object will be merged into post form.
+
+#### SDK#init()
+Init a SDK instance
+
+- if there's no any available rules provied before ,
+- this init function can be triggered by users and at any time they want.
 
 ### Contributing
 - Fork this repo
@@ -71,7 +91,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
 
 ---
 ![docor](https://cdn1.iconfinder.com/data/icons/windows8_icons_iconpharm/26/doctor.png)
