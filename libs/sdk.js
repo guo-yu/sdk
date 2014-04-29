@@ -40,7 +40,7 @@ SDK.prototype.rule = function(key, value) {
   if (!key || !value) return false;
   if (!this.rules) this.rules = {}
   this.rules[key.toLowerCase()] = value;
-  return this.rules;
+  return this;
 };
 
 
