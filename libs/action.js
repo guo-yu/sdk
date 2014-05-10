@@ -6,7 +6,7 @@ var urlmaker = require('./url');
 function defaultCallback(err, response, body, next) {
   if (err) return next(err);
   var code = response.statusCode;
-  if (code !== 200) return next(new Error(code));
+  if (code !== 200) return next(new Error(code), response);
   return next(null, response, body);
 }
 
@@ -24,6 +24,7 @@ module.exports = function(host, route, rules) {
 
     options.method = method;
     options.url = url.resolve(host, urlmaker(route.url, options));
+    options.json = true;
 
     return request(options, function(err, response, body) {
       return defaultCallback(err, response, body, function(err, res, body) {
