@@ -1,5 +1,5 @@
 var url = require('url');
-var _ = require('underscore');
+var _ = require('lodash');
 var request = require('request');
 var urlmaker = require('./url');
 
@@ -18,8 +18,8 @@ module.exports = function(host, route, rules) {
     var options = (params && _.isObject(params)) ? params : {};
 
     if (rules) {
-      if (rules.all) options = _.extend(rules.all, options);
-      options = _.extend(rules[method] || {}, options);
+      if (rules.all) options = _.merge(rules.all, options);
+      options = _.merge(rules[method] || {}, options);
     }
 
     options.method = method;

@@ -21,9 +21,9 @@
     "url": "https://github.com/turingou/sdk/issues"
   },
   "dependencies": {
+    "lodash": "*",
     "request": "*",
-    "swig": "~1.3.2",
-    "underscore": "~1.6.0"
+    "swig": "~1.3.2"
   },
   "devDependencies": {
     "mocha": "*",
