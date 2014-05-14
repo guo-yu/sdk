@@ -7,7 +7,7 @@
 // @brief: a sdk factory, build sdks made easy
 // @author: [turingou](http://guoyu.me)
 
-var _ = require('underscore');
+var _ = require('lodash');
 var apis = require('./action');
 
 module.exports = SDK;
