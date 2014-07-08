@@ -38,6 +38,7 @@ function highLevel(host, route, rules) {
 function initRequest(opts, params, callback, next) {
   var rules = opts.rules;
   var done = (_.isFunction(params) && !callback) ? params : callback;
+  var done = retCallback(params, callback);
   var options = isObject(params) ? params : {};
 
   if (rules) {
@@ -68,6 +69,14 @@ function initRequest(opts, params, callback, next) {
     if (code !== 200) return cb(new Error(code), res, body, done);
     return cb(null, res, body, done);
   }
+}
+
+function retCallback(params, callback) {
+  if (!params && !callback) return emptyCallback;
+  if (_.isFunction(params) && !callback) return params;
+  if (callback && _.isFunction(callback)) return callback;
+  return emptyCallback;
+  function emptyCallback(){}
 }
 
 function isObject(obj) {
