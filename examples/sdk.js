@@ -8,8 +8,12 @@ var api = new sdk('http://localhost:9999', {
   update: {
     method: 'post',
     url: '/demo/update'
-  }
-}).init();
+  },
+  // ues as abs uri
+  baidu: 'http://baidu.com'
+});
+
+api.init();
 
 // highlevel
 // => http://localhost:9999/demo/read/123?b=2
@@ -19,7 +23,7 @@ api.read({
     b: 2
   }
 }, function(err, res, body) {
-  console.log('fetch done');
+  // console.log('fetch done');
 });
 
 // lowlevel
@@ -29,5 +33,9 @@ api.get('/anotherAPI', {
     a: 1
   }
 }, function(err, res, body){
-  console.log('fetch done');
+  // console.log('fetch done');
 });
+
+// use abs uri
+// and ignore params
+api.baidu();
