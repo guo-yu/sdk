@@ -37,7 +37,6 @@ function highLevel(host, route, rules) {
 
 function initRequest(opts, params, callback, next) {
   var rules = opts.rules;
-  var done = (_.isFunction(params) && !callback) ? params : callback;
   var done = retCallback(params, callback);
   var options = isObject(params) ? params : {};
 
