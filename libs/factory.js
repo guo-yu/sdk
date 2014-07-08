@@ -1,5 +1,6 @@
 var url = require('url');
 var _ = require('lodash');
+var debug = require('debug');
 var request = require('request');
 var urlmaker = require('./url');
 
@@ -48,11 +49,15 @@ function initRequest(opts, params, callback, next) {
   options.method = opts.method;
   options.json = true;
 
+  debug('sdk:req')(options);
+
   return request(options, function(err, res, body) {
     return defaultCallback(err, res, body);
   });
 
   function defaultCallback(err, res, body) {
+    debug('sdk:res')(res['headers']);
+    debug('sdk:res:body')(body);
     var cb = next || done;
     if (err) return cb(err, res, null, done);
     var code = res.statusCode;

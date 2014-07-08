@@ -1,6 +1,7 @@
-var SDK = require('../index');
+var sdk = require('../index');
 
-var sdk = new SDK('http://abc.com', {
+// init api
+var api = new sdk('http://localhost:9999', {
   read: {
     url: '/demo/read/{{name}}'
   },
@@ -8,12 +9,25 @@ var sdk = new SDK('http://abc.com', {
     method: 'post',
     url: '/demo/update'
   }
+}).init();
+
+// highlevel
+// => http://localhost:9999/demo/read/123?b=2
+api.read({
+  name: 123,
+  qs: {
+    b: 2
+  }
+}, function(err, res, body) {
+  console.log('fetch done');
 });
 
-// run demo
-sdk.read({
-  name: 123
-}, function(err, res, body) {
-  console.log(err);
-  console.log(res.statusCode)
+// lowlevel
+// => http://localhost:9999/anotherAPI?a=1
+api.get('/anotherAPI', {
+  qs: {
+    a: 1
+  }
+}, function(err, res, body){
+  console.log('fetch done');
 });
