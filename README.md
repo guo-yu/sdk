@@ -5,7 +5,7 @@ a sdk factory, build sdks made easy.
 SDK provides a easy and fast way to build a collection of APIs. user would config api routes, define which params will be injected into query params, and custom a callback wrapper of each route. make it sample and easy to handle API as make codes more reuseful.
 
 ### Installation
-````
+````bash
 $ npm install sdk
 ````
 
@@ -28,8 +28,8 @@ var MySdk = new sdk('http://myApiServer.com', {
   }
 });
 
-// will send a GET request -> 
-// http://myApiServer.com/demo/read/alice?before=1567
+// Will send a GET request ->
+// ttp://myApiServer.com/demo/read/alice?before=1567
 MySdk.read({
   name: 'alice',
   qs: {
