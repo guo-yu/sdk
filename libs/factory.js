@@ -45,9 +45,13 @@ function initRequest(opts, params, callback, next) {
     options = _.merge(rules[opts.method] || {}, options);
   }
 
-  options.url = isAbsUri(opts.url) ? opts.url : url.resolve(opts.host, opts.url);
+  options.url = isAbsUri(opts.url) ? 
+    opts.url : url.resolve(opts.host, opts.url);
+
   options.method = opts.method;
-  options.json = true;
+
+  if (options.json == undefined)
+    options.json = true;
 
   debug('sdk:request')(options);
 
