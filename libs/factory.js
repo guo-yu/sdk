@@ -41,8 +41,10 @@ function initRequest(opts, params, callback, next) {
   var options = isObject(params) ? params : {};
 
   if (rules) {
-    if (rules.all) options = _.merge(rules.all, options);
-    options = _.merge(rules[opts.method] || {}, options);
+    if (rules.all) 
+      options = _.merge(_.cloneDeep(rules.all), options);
+    if (rules[opts.method])
+      options = _.merge(_.cloneDeep(rules[opts.method]), options);
   }
 
   options.url = isAbsUri(opts.url) ? 
