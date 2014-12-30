@@ -1,24 +1,41 @@
 var sdk = require('../index');
 
-// init api
-var fakehost = 'http://localhost:9999';
-var apis = {
-  // by default, the mothod is `get`
+// APIs is a map with `shortcut` and request object,
+// Which contains request.url, request.method.
+var APIs = {
+  // By default, the method is `GET`
   read: {
-    url: '/demo/read/{{name}}'
+    url: '/example/read/{{name}}'
   },
-  // btw, string will be ok as well
-  anotherRead: '/demo/read/{{name}}',
-  // use post
+  // Btw, String will be ok as well
+  fetch: '/example/read/{{name}}',
+  // Use `POST` instead
   update: {
     method: 'post',
-    url: '/demo/update'
+    url: '/example/update'
   },
-  // abs uri will not be joined to host uri.
-  baidu: 'http://baidu.com'
+  // Absolute URI will not be joined to host URI.
+  google: 'http://google.com'
 };
 
-var api = new sdk('http://localhost:9999', apis);
-api.init();
+// Rules is a map with a request.method as a key,
+// Which contains a request.option object will be merged into a real request.
+var rules = {
+  // userId=303 will be inject to a real `GET` request 
+  get: {
+    qs: {
+      userId: 303
+    }
+  },
+  // token: 'abc' will be inject to a real `POST` request as form data.
+  post: {
+    form: {
+      token: 'abc' 
+    }
+  }
+}
+
+// Init a new SDK instance with APIs and append some request rules to it.
+var api = new sdk('http://localhost:9999', APIs, rules);
 
 module.exports = api;

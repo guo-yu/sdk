@@ -10,36 +10,68 @@ $ npm install sdk
 ````
 
 ### Example
-````javascript
-var sdk = require('sdk');
+To run examples provided. Try:
 
-// init a API
-var MySdk = new sdk('http://myApiServer.com', {
-  // default method is 'get'
-  query: '/demo/query',
-  // or define selected method
+```bash
+$ npm run examples
+```
+
+Or check out:
+
+```js
+var SDK = require('sdk');
+
+// APIs is a map with `shortcut` and request object,
+// Which contains request.url, request.method.
+var APIs = {
+  // By default, the method is `GET`
   read: {
-    url: '/demo/read/{{name}}',
-    method: 'get'
+    url: '/example/read/{{name}}'
   },
+  // Btw, String will be ok as well
+  fetch: '/example/read/{{name}}',
+  // Use `POST` instead
   update: {
-    url: '/demo/update',
-    method: 'post'
-  }
-});
+    method: 'post',
+    url: '/example/update'
+  },
+  // Absolute URI will not be joined to host URI.
+  google: 'http://google.com'
+};
 
-// Will send a GET request ->
-// ttp://myApiServer.com/demo/read/alice?before=1567
-MySdk.read({
-  name: 'alice',
-  qs: {
-    before: 1567
+// Rules is a map with a request.method as a key,
+// Which contains a request.option object will be merged into a real request.
+var rules = {
+  // userId=303 will be inject to a real `GET` request 
+  get: {
+    qs: {
+      userId: 303
+    }
+  },
+  // token: 'abc' will be inject to a real `POST` request as form data.
+  post: {
+    form: {
+      token: 'abc' 
+    }
   }
-},function(err, res, body) {
-  if (err) throw err;
-  console.log(body);
+}
+
+// Init a new SDK instance with APIs and append some request rules to it.
+var api = new SDK('http://my-api-server.com', APIs, rules);
+```
+And use a API like this way:
+
+```js
+// => http://my-api-server.com/demo/read/123?b=2
+api.read({
+  name: 123,
+  qs: {
+    b: 2
+  }
+}, function(err, res, body) {
+  console.log('data fetched');
 });
-````
+```
 
 ### API
 

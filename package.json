@@ -6,7 +6,7 @@
   "author": "turing <o.u.turing@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "test": "DEBUG=sdk* node examples/index.js"
+    "examples": "DEBUG=sdk,sdk:* node examples/index.js"
   },
   "repository": {
     "type": "git",
