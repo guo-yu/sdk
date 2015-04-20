@@ -4,7 +4,7 @@ import debug from 'debug'
 import request from 'request'
 import urlmaker from './url'
 
-export lowLevel(host, method, rules) => {
+export function lowLevel(host, method, rules) {
   return (url, params, callback) => {
     if (!url) 
       return false;
@@ -18,7 +18,7 @@ export lowLevel(host, method, rules) => {
   };
 }
 
-export highLevel(host, route, rules) => {
+export function highLevel(host, route, rules) {
   return (params, callback) => {
     return initRequest({
       host,
@@ -88,7 +88,7 @@ function retCallback(params, callback) {
     return callback;
 
   return emptyCallback;
-  
+
   function emptyCallback(){}
 }
 
