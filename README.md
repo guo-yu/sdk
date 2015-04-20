@@ -1,8 +1,8 @@
 ## ![logo](https://cdn1.iconfinder.com/data/icons/Real-Estate-png/65/Factory.png) sdk ![npm](https://badge.fury.io/js/sdk.png)
 
-a sdk factory, build sdks made easy.
+SDK factory, building SDK made easy.
 
-SDK provides a easy and fast way to build a collection of APIs. user would config api routes, define which params will be injected into query params, and custom a callback wrapper of each route. make it sample and easy to handle API as make codes more reuseful.
+SDK module provides a easy and fast way to build a collection of APIs. user would config api routes, define which params will be injected into query params, and custom a callback wrapper of each route. make it sample and easy to handle API as make codes more reuseful.
 
 ### Installation
 ````bash
