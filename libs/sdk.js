@@ -8,7 +8,7 @@
 // @author: [turingou](http://guoyu.me)
 
 import _ from 'lodash'
-import factory from './factory'
+import { lowLevel, highLevel } from './factory'
 
 /**
  *
@@ -64,7 +64,7 @@ export default class SDK {
 
     // init build-in lowlevel apis
     ['get', 'post', 'put', 'delete'].forEach((buildInMethod) => {
-      this[buildInMethod] = factory.lowLevel(host, buildInMethod, rules);
+      this[buildInMethod] = lowLevel(host, buildInMethod, rules);
     });
 
     // init custom apis
@@ -80,7 +80,7 @@ export default class SDK {
         api = route;
       }
 
-      this[key] = factory.highLevel(host, api, rules);
+      this[key] = highLevel(host, api, rules);
     });
   }
 }

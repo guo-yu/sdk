@@ -1,4 +1,4 @@
-var sdk = require('../index');
+var sdk = require('../dist/sdk');
 
 // APIs is a map with `shortcut` and request object,
 // Which contains request.url, request.method.

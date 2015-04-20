@@ -22,9 +22,7 @@ var _import = require('lodash');
 
 var _import2 = _interopRequireWildcard(_import);
 
-var _factory = require('./factory');
-
-var _factory2 = _interopRequireWildcard(_factory);
+var _lowLevel$highLevel = require('./factory');
 
 /**
  *
@@ -87,7 +85,7 @@ var SDK = (function () {
 
       // init build-in lowlevel apis
       ['get', 'post', 'put', 'delete'].forEach(function (buildInMethod) {
-        _this[buildInMethod] = _factory2['default'].lowLevel(host, buildInMethod, rules);
+        _this[buildInMethod] = _lowLevel$highLevel.lowLevel(host, buildInMethod, rules);
       });
 
       // init custom apis
@@ -102,7 +100,7 @@ var SDK = (function () {
           api = route;
         }
 
-        _this[key] = _factory2['default'].highLevel(host, api, rules);
+        _this[key] = _lowLevel$highLevel.highLevel(host, api, rules);
       });
     }
   }]);
