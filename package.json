@@ -6,7 +6,7 @@
   "author": "turing <o.u.turing@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "node_modules/.bin/babel libs --out-dir dist",
+    "build": "node_modules/.bin/babel libs --out-dir dist --source-maps",
     "examples": "DEBUG=sdk,sdk:* node examples/index.js"
   },
   "repository": {

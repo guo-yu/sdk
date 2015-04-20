@@ -1,0 +1,1 @@
+{"version":3,"sources":["../libs/url.js"],"names":[],"mappings":";;;;;;;;oBAAiB,MAAM;;;;qBAER,UAAC,KAAK,EAAE,MAAM,EAAK;AAChC,SAAO,kBAAK,MAAM,CAAC,KAAK,EAAE;AACxB,UAAM,EAAE,MAAM;GACf,CAAC,CAAC;CACJ","file":"libs/url.js","sourcesContent":["import swig from 'swig'\n\nexport default (route, locals) => {\n  return swig.render(route, {\n    locals: locals\n  });\n}\n"]}

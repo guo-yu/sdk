@@ -113,3 +113,4 @@ function isObject(obj) {
 function isAbsUri(uri) {
   return uri && (uri.indexOf('http') === 0 || uri.indexOf('https') === 0);
 }
+//# sourceMappingURL=factory.js.map
