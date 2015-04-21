@@ -18,7 +18,7 @@ import { lowLevel, highLevel } from './factory'
  *
  **/
 export default class SDK {
-  constructor(host, routes, rules) {
+  constructor(host, routes, rules = null) {
     if (!routes || !host) 
       return false;
     if (!(_.isObject(routes))) 
@@ -26,7 +26,7 @@ export default class SDK {
 
     this.host = host;
     this.routes = routes;
-    this.rules = rules || null;
+    this.rules = rules;
 
     if (this.rules) 
       this.init();
