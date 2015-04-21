@@ -33,7 +33,9 @@ var _lowLevel$highLevel = require('./factory');
  **/
 
 var SDK = (function () {
-  function SDK(host, routes, rules) {
+  function SDK(host, routes) {
+    var rules = arguments[2] === undefined ? null : arguments[2];
+
     _classCallCheck(this, SDK);
 
     if (!routes || !host) {
@@ -42,7 +44,7 @@ var SDK = (function () {
       return false;
     }this.host = host;
     this.routes = routes;
-    this.rules = rules || null;
+    this.rules = rules;
 
     if (this.rules) this.init();
   }
