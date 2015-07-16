@@ -20,16 +20,16 @@ import { lowLevel, highLevel } from './factory'
 export default class SDK {
   constructor(host, routes, rules) {
     if (!routes || !host) 
-      return false;
+      return false
     if (!(_.isObject(routes))) 
-      return false;
+      return false
 
-    this.host = host;
-    this.routes = routes;
-    this.rules = rules || null;
+    this.host = host
+    this.routes = routes
+    this.rules = rules || null
 
     if (this.rules) 
-      this.init();
+      this.init()
   }
   
   /**
@@ -42,12 +42,12 @@ export default class SDK {
    **/
   rule(key, value) {
     if (!key || !value) 
-      return false;
+      return false
     if (!this.rules) 
       this.rules = {}
 
-    this.rules[key.toLowerCase()] = value;
-    return this;
+    this.rules[key.toLowerCase()] = value
+    return this
   }
 
   /**
@@ -58,29 +58,30 @@ export default class SDK {
    *
    **/
   init() {
-    var routes = this.routes;
-    var host = this.host;
-    var rules = this.rules;
+    var routes = this.routes
+    var host = this.host
+    var rules = this.rules
 
     // init build-in lowlevel apis
     ['get', 'post', 'put', 'delete'].forEach((buildInMethod) => {
-      this[buildInMethod] = lowLevel(host, buildInMethod, rules);
-    });
+      this[buildInMethod] = lowLevel(host, buildInMethod, rules)
+    })
 
     // init custom apis
     Object.keys(routes).forEach((key) => {
-      var route = routes[key];
-      var api = {};
+      var route = routes[key]
+      var api = {}
 
       if (typeof(route) === 'string') {
-        api.url = route;
+        api.url = route
       } else {
         if (!route.url) 
-          return false;
-        api = route;
+          return false
+
+        api = route
       }
 
-      this[key] = highLevel(host, api, rules);
-    });
+      this[key] = highLevel(host, api, rules)
+    })
   }
 }
