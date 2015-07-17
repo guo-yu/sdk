@@ -83,10 +83,10 @@ var SDK = (function () {
 
       var host = this.host;
       var rules = this.rules;
-      var routes = this.routes
+      var routes = this.routes;
 
       // init build-in lowlevel apis
-      [('get', 'post', 'put', 'delete')].forEach(function (method) {
+      ['get', 'post', 'put', 'delete'].forEach(function (method) {
         return _this[method] = _lowLevel$highLevel.lowLevel(host, method, rules);
       });
 
@@ -99,6 +99,8 @@ var SDK = (function () {
 
         _this[key] = _lowLevel$highLevel.highLevel(host, api, rules);
       });
+
+      return this;
     }
   }]);
 

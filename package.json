@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "node_modules/.bin/babel libs --out-dir dist --source-maps --watch",
-    "examples": "DEBUG=sdk,sdk:* node examples/index.js"
+    "examples": "DEBUG=sdk,sdk:* node examples/index.js",
+    "test": "node_modules/.bin/mocha tests/*.js"
   },
   "repository": {
     "type": "git",

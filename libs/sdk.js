@@ -60,7 +60,7 @@ export default class SDK {
   init() {
     const host = this.host
     const rules = this.rules
-    const routes = this.routes
+    const routes = this.routes;
 
     // init build-in lowlevel apis
     ['get', 'post', 'put', 'delete'].forEach(method =>
@@ -75,5 +75,7 @@ export default class SDK {
 
       this[key] = highLevel(host, api, rules)
     })
+
+    return this
   }
 }
