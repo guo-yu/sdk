@@ -18,7 +18,7 @@ import { lowLevel, highLevel } from './factory'
  *
  **/
 export default class SDK {
-  constructor(host, routes, rules=null) {
+  constructor(host, routes, rules = null) {
     if (!routes || !host) 
       return
     if (!_.isObject(routes)) 
