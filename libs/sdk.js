@@ -18,15 +18,15 @@ import { lowLevel, highLevel } from './factory'
  *
  **/
 export default class SDK {
-  constructor(host, routes, rules) {
+  constructor(host, routes, rules=null) {
     if (!routes || !host) 
-      return false
-    if (!(_.isObject(routes))) 
-      return false
+      return
+    if (!_.isObject(routes)) 
+      return
 
     this.host = host
     this.routes = routes
-    this.rules = rules || null
+    this.rules = rules
 
     if (this.rules) 
       this.init()
@@ -58,27 +58,19 @@ export default class SDK {
    *
    **/
   init() {
-    var routes = this.routes
-    var host = this.host
-    var rules = this.rules
+    const host = this.host
+    const rules = this.rules
+    const routes = this.routes
 
     // init build-in lowlevel apis
-    ['get', 'post', 'put', 'delete'].forEach((buildInMethod) => {
-      this[buildInMethod] = lowLevel(host, buildInMethod, rules)
-    })
+    ['get', 'post', 'put', 'delete'].forEach(method =>
+      this[method] = lowLevel(host, method, rules))
 
     // init custom apis
-    Object.keys(routes).forEach((key) => {
-      var route = routes[key]
-      var api = {}
-
-      if (typeof(route) === 'string') {
-        api.url = route
-      } else {
-        if (!route.url) 
-          return false
-
-        api = route
+    Object.keys(routes).forEach(key => {
+      const route = routes[key]
+      const api = {
+        url: typeof(route) === 'string' ? route : route.url
       }
 
       this[key] = highLevel(host, api, rules)

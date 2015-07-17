@@ -33,16 +33,18 @@ var _lowLevel$highLevel = require('./factory');
  **/
 
 var SDK = (function () {
-  function SDK(host, routes, rules) {
+  function SDK(host, routes) {
+    var rules = arguments[2] === undefined ? null : arguments[2];
+
     _classCallCheck(this, SDK);
 
     if (!routes || !host) {
-      return false;
+      return;
     }if (!_import2['default'].isObject(routes)) {
-      return false;
+      return;
     }this.host = host;
     this.routes = routes;
-    this.rules = rules || null;
+    this.rules = rules;
 
     if (this.rules) this.init();
   }
@@ -79,26 +81,21 @@ var SDK = (function () {
     value: function init() {
       var _this = this;
 
-      var routes = this.routes;
       var host = this.host;
       var rules = this.rules;
+      var routes = this.routes
 
       // init build-in lowlevel apis
-      ['get', 'post', 'put', 'delete'].forEach(function (buildInMethod) {
-        _this[buildInMethod] = _lowLevel$highLevel.lowLevel(host, buildInMethod, rules);
+      [('get', 'post', 'put', 'delete')].forEach(function (method) {
+        return _this[method] = _lowLevel$highLevel.lowLevel(host, method, rules);
       });
 
       // init custom apis
       Object.keys(routes).forEach(function (key) {
         var route = routes[key];
-        var api = {};
-
-        if (typeof route === 'string') {
-          api.url = route;
-        } else {
-          if (!route.url) return false;
-          api = route;
-        }
+        var api = {
+          url: typeof route === 'string' ? route : route.url
+        };
 
         _this[key] = _lowLevel$highLevel.highLevel(host, api, rules);
       });

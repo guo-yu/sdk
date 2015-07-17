@@ -1,94 +1,87 @@
 import url from 'url'
 import _ from 'lodash'
 import debug from 'debug'
+import Promise from 'bluebird'
 import request from 'request'
 import urlmaker from './url'
 
 export function lowLevel(host, method, rules) {
-  return (url, params, callback) => {
-    if (!url) 
-      return false
-
+  return (url, params={}) => {
+    // Return a Promise/A+
     return initRequest({
       host,
       url,
       method,
       rules,
+    }, params)
+  }
+}
+
+export function highLevel(host, { url, method, callback }, rules) {
+  return (params={}) => {
+    // Return a Promise/A+
+    return initRequest({
+      host,
+      rules,
+      url: urlmaker(url, params),
+      method: method ? method.toLowerCase() : 'get',
     }, params, callback)
   }
 }
 
-export function highLevel(host, route, rules) {
-  return (params, callback) => {
-    return initRequest({
-      host,
-      rules,
-      url: urlmaker(route.url, params || {}),
-      method: route.method ? route.method.toLowerCase() : 'get',
-    }, params, callback, (err, res, body, done) => {
-      if (route.callback && _.isFunction(route.callback))
-        return route.callback(err, res, body, done)
-
-      return done(err, res, body)
-    })
-  }
-}
-
-function initRequest(opts, params, callback, next) {
-  var rules = opts.rules;
-  var done = retCallback(params, callback);
-  var options = isObject(params) ? params : {};
+function initRequest(opts, params, middleware) {
+  var rules = opts.rules
+  var options = isObject(params) ? params : {}
 
   if (rules) {
     if (rules.all) 
-      options = _.merge(_.cloneDeep(rules.all), options);
+      options = _.merge(_.cloneDeep(rules.all), options)
     if (rules[opts.method])
-      options = _.merge(_.cloneDeep(rules[opts.method]), options);
+      options = _.merge(_.cloneDeep(rules[opts.method]), options)
   }
 
+  options.method = opts.method
   options.url = isAbsUri(opts.url) ? 
     opts.url : url.resolve(opts.host, opts.url);
-
-  options.method = opts.method
 
   if (options.json == undefined)
     options.json = true
 
   debug('sdk:request')(options)
 
-  return request(options, defaultCallback)
+  return new Promise((Resolve, Reject) => {
+    return request(options, (err, response, body) => {
+      if (err)
+        return Reject(err)
 
-  function defaultCallback(err, res, body) {
-    var cb = next || done
+      debug('sdk:response:status')(response.statusCode)
+      debug('sdk:response:headers')(response.headers)
+      debug('sdk:response:body')(body)
 
-    if (err) {
-      debug('sdk:response:error')(err)
-      return cb(err, res, null, done)
-    }
+      var code = response.statusCode
+      if (code >= 400) 
+        return Reject(new Error(code))
 
-    debug('sdk:response:status')(res.statusCode)
-    debug('sdk:response:headers')(res['headers'])
-    debug('sdk:response:body')(body)
+      if (_.isFunction(middleware)) {
+        return middleware(response, body, (customError, customBody) => {
+          if (customError)
+            return Reject(customError)
 
-    var code = res.statusCode
-    if (code !== 200) 
-      return cb(new Error(code), res, body, done)
+          return Resolve({
+            code,
+            response,
+            body: customBody || body
+          })
+        })
+      }
 
-    return cb(null, res, body, done)
-  }
-}
-
-function retCallback(params, callback) {
-  if (!params && !callback) 
-    return emptyCallback
-  if (_.isFunction(params) && !callback) 
-    return params
-  if (callback && _.isFunction(callback)) 
-    return callback
-
-  return emptyCallback;
-
-  function emptyCallback(){}
+      return Resolve({
+        code,
+        response,
+        body
+      })
+    })
+  })
 }
 
 function isObject(obj) {

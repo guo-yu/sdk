@@ -68,9 +68,9 @@ api.read({
   qs: {
     b: 2
   }
-}, function(err, res, body) {
-  console.log('data fetched');
-});
+}).then({ body } => {
+  console.log(body)
+})
 ```
 
 ### API

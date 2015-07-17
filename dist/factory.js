@@ -20,6 +20,10 @@ var _debug = require('debug');
 
 var _debug2 = _interopRequireWildcard(_debug);
 
+var _Promise = require('bluebird');
+
+var _Promise2 = _interopRequireWildcard(_Promise);
+
 var _request = require('request');
 
 var _request2 = _interopRequireWildcard(_request);
@@ -29,34 +33,37 @@ var _urlmaker = require('./url');
 var _urlmaker2 = _interopRequireWildcard(_urlmaker);
 
 function lowLevel(host, method, rules) {
-  return function (url, params, callback) {
-    if (!url) return false;
+  return function (url) {
+    var params = arguments[1] === undefined ? {} : arguments[1];
 
+    // Return a Promise/A+
     return initRequest({
       host: host,
       url: url,
       method: method,
-      rules: rules }, params, callback);
+      rules: rules }, params);
   };
 }
 
-function highLevel(host, route, rules) {
-  return function (params, callback) {
+function highLevel(host, _ref, rules) {
+  var url = _ref.url;
+  var method = _ref.method;
+  var callback = _ref.callback;
+
+  return function () {
+    var params = arguments[0] === undefined ? {} : arguments[0];
+
+    // Return a Promise/A+
     return initRequest({
       host: host,
       rules: rules,
-      url: _urlmaker2['default'](route.url, params || {}),
-      method: route.method ? route.method.toLowerCase() : 'get' }, params, callback, function (err, res, body, done) {
-      if (route.callback && _import2['default'].isFunction(route.callback)) return route.callback(err, res, body, done);
-
-      return done(err, res, body);
-    });
+      url: _urlmaker2['default'](url, params),
+      method: method ? method.toLowerCase() : 'get' }, params, callback);
   };
 }
 
-function initRequest(opts, params, callback, next) {
+function initRequest(opts, params, middleware) {
   var rules = opts.rules;
-  var done = retCallback(params, callback);
   var options = isObject(params) ? params : {};
 
   if (rules) {
@@ -64,46 +71,43 @@ function initRequest(opts, params, callback, next) {
     if (rules[opts.method]) options = _import2['default'].merge(_import2['default'].cloneDeep(rules[opts.method]), options);
   }
 
-  options.url = isAbsUri(opts.url) ? opts.url : _url2['default'].resolve(opts.host, opts.url);
-
   options.method = opts.method;
+  options.url = isAbsUri(opts.url) ? opts.url : _url2['default'].resolve(opts.host, opts.url);
 
   if (options.json == undefined) options.json = true;
 
   _debug2['default']('sdk:request')(options);
 
-  return _request2['default'](options, function (err, res, body) {
-    return defaultCallback(err, res, body);
+  return new _Promise2['default'](function (Resolve, Reject) {
+    return _request2['default'](options, function (err, response, body) {
+      if (err) return Reject(err);
+
+      _debug2['default']('sdk:response:status')(response.statusCode);
+      _debug2['default']('sdk:response:headers')(response.headers);
+      _debug2['default']('sdk:response:body')(body);
+
+      var code = response.statusCode;
+      if (code >= 400) return Reject(new Error(code));
+
+      if (_import2['default'].isFunction(middleware)) {
+        return middleware(response, body, function (customError, customBody) {
+          if (customError) return Reject(customError);
+
+          return Resolve({
+            code: code,
+            response: response,
+            body: customBody || body
+          });
+        });
+      }
+
+      return Resolve({
+        code: code,
+        response: response,
+        body: body
+      });
+    });
   });
-
-  function defaultCallback(err, res, body) {
-    var cb = next || done;
-    if (err) {
-      _debug2['default']('sdk:response:error')(err);
-      return cb(err, res, null, done);
-    }
-
-    _debug2['default']('sdk:response:status')(res.statusCode);
-    _debug2['default']('sdk:response:headers')(res.headers);
-    _debug2['default']('sdk:response:body')(body);
-
-    var code = res.statusCode;
-    if (code !== 200) {
-      return cb(new Error(code), res, body, done);
-    }return cb(null, res, body, done);
-  }
-}
-
-function retCallback(params, callback) {
-  if (!params && !callback) {
-    return emptyCallback;
-  }if (_import2['default'].isFunction(params) && !callback) {
-    return params;
-  }if (callback && _import2['default'].isFunction(callback)) {
-    return callback;
-  }return emptyCallback;
-
-  function emptyCallback() {}
 }
 
 function isObject(obj) {
