@@ -63,12 +63,15 @@ And use a API like this way:
 
 ```js
 // => http://my-api-server.com/demo/read/123?b=2
-api.read({
+var query = {
   name: 123,
   qs: {
     b: 2
   }
-}).then({ body } => {
+}
+
+// Return a Promise instance
+api.read(query).then({ body } => {
   console.log(body)
 })
 ```

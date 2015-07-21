@@ -1,7 +1,7 @@
 var api = require('./api');
 
+// use abs uri
+// and ignore params
 module.exports = function() {
-  // use abs uri
-  // and ignore params
-  api.google('Im a token, but we just ignore callback');
+  api.google('Im a token, but we just ignore callback')
 }

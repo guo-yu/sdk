@@ -1,13 +1,16 @@
-var api = require('./api');
+var api = require('./api')
 
+// lowlevel
+// => http://localhost:9999/anotherAPI?a=1
 module.exports = function() {
-  // lowlevel
-  // => http://localhost:9999/anotherAPI?a=1
-  api.get('/anotherAPI', {
+  var query = {
     qs: {
       a: 1
     }
-  }, function(err, res, body) {
-    // console.log('fetch done');
-  });
+  }
+
+  api.get('/anotherAPI', query)
+    .then(function(result) {
+      console.log(result)
+    })
 }

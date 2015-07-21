@@ -1,4 +1,4 @@
-var sdk = require('../dist/sdk');
+var sdk = require('../dist/sdk')
 
 // APIs is a map with `shortcut` and request object,
 // Which contains request.url, request.method.
@@ -16,7 +16,7 @@ var APIs = {
   },
   // Absolute URI will not be joined to host URI.
   google: 'http://google.com'
-};
+}
 
 // Rules is a map with a request.method as a key,
 // Which contains a request.option object will be merged into a real request.
@@ -36,6 +36,4 @@ var rules = {
 }
 
 // Init a new SDK instance with APIs and append some request rules to it.
-var api = new sdk('http://localhost:9999', APIs, rules);
-
-module.exports = api;
+module.exports = new sdk('http://localhost:9999', APIs, rules)

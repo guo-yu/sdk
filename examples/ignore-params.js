@@ -1,9 +1,9 @@
-var api = require('./api');
+var api = require('./api')
 
+// highlevel, ignore params
+// => http://localhost:9999/demo/read
 module.exports = function() {
-  // highlevel, ignore params
-  // => http://localhost:9999/demo/read
-  api.read(function(err, res, body) {
-    // console.log('fetch done');
-  });
+  api.read().then(function(result) {
+    console.log(result)
+  })
 }
