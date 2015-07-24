@@ -1,6 +1,6 @@
 {
   "name": "sdk",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "SDK factory, building SDK made easy",
   "main": "dist/sdk.js",
   "author": "turing <o.u.turing@gmail.com>",

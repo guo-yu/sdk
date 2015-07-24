@@ -95,7 +95,9 @@ var SDK = (function () {
         var route = routes[key];
         var api = {
           url: typeof route === 'string' ? route : route.url
-        };
+        };['method', 'callback'].forEach(function (item) {
+          if (route[item]) api[item] = route[item];
+        });
 
         _this[key] = _lowLevel$highLevel.highLevel(host, api, rules);
       });

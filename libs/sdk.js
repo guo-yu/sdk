@@ -68,10 +68,15 @@ export default class SDK {
 
     // init custom apis
     Object.keys(routes).forEach(key => {
-      const route = routes[key]
-      const api = {
+      let route = routes[key]
+      let api = {
         url: typeof(route) === 'string' ? route : route.url
       }
+
+      ;['method', 'callback'].forEach(item => {
+        if (route[item])
+          api[item] = route[item]
+      })
 
       this[key] = highLevel(host, api, rules)
     })
