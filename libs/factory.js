@@ -38,6 +38,13 @@ function initRequest(opts, params, middleware) {
       options = _.merge(_.cloneDeep(rules.all), options)
     if (rules[opts.method])
       options = _.merge(_.cloneDeep(rules[opts.method]), options)
+
+    if (options.headers) {
+      Object.keys(options.headers).forEach(k => {
+        if (typeof(options.headers[k]) === 'function')
+          options.headers[k] = options.headers[k]()
+      })
+    }
   }
 
   options.method = opts.method

@@ -69,6 +69,12 @@ function initRequest(opts, params, middleware) {
   if (rules) {
     if (rules.all) options = _import2['default'].merge(_import2['default'].cloneDeep(rules.all), options);
     if (rules[opts.method]) options = _import2['default'].merge(_import2['default'].cloneDeep(rules[opts.method]), options);
+
+    if (options.headers) {
+      Object.keys(options.headers).forEach(function (k) {
+        if (typeof options.headers[k] === 'function') options.headers[k] = options.headers[k]();
+      });
+    }
   }
 
   options.method = opts.method;
