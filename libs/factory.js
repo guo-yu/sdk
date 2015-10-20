@@ -1,7 +1,6 @@
 import url from 'url'
 import _ from 'lodash'
 import debug from 'debug'
-import Promise from 'bluebird'
 import request from 'request'
 import urlmaker from './url'
 
