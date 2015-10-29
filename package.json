@@ -23,7 +23,6 @@
     "url": "https://github.com/turingou/sdk/issues"
   },
   "dependencies": {
-    "bluebird": "^2.9.34",
     "debug": "1.0.2",
     "lodash": "~2.4.1",
     "request": "2.37.0",
